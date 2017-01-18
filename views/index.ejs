@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title></title>
-</head>
-<body>
-  <h1>Welcome to Potluck!</h1>
-  <% if (!currentUser) { %>
-    <a href="/users/new">register</a>
-    <a href="/login">login</a>
-  <% } else { %>
-    <a href="">Hi, <%= currentUser.username %></a>
-    <a href="/logout">logout</a>
-  <% } %>
-</body>
-</html>
+<% include partials/header %>
+<h1>Potluck Party</h1>
+
+<% include partials/footer %>

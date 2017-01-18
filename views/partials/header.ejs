@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Potluck</title>
+</head>
+<body>
+  <nav>
+  <% if (!currentUser) { %>
+    <ul>
+      <li><a class='active' href='/'>home</a></li>
+      <li><a href="/login">login</a></li>
+      <li><a href="/users/new">register</a></li>
+    </ul>
+  <% } else { %>
+    <ul>
+      <li><a class='active' href='/'>home</a></li>
+      <li><a href="/logout">logout</a></li>
+      <li><a href='/potlucks/new'>host a potluck</a></li>
+      <li class='greeting'><a>Welcome back, <%= currentUser.username %></a></li>
+    </ul>
+  <% } %>
+  </nav>
