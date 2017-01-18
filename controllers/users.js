@@ -12,8 +12,7 @@ module.exports = function(app) {
   app.post('/users', function(req,res) {
     User.register(new User({username: req.body.username}), req.body.password, function(err,user) {
       if (err) {
-        throw err;
-        return res.render('users/new');
+        return res.render('users/new', {message: err.message});
       }
       passport.authenticate("local")(req,res,function(){
         res.redirect('/');
