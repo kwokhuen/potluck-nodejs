@@ -3,8 +3,6 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 module.exports = function(app) {
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
   app.get('/users/new', function(req,res) {
     res.render('users/new');
   })
@@ -12,7 +10,7 @@ module.exports = function(app) {
   app.post('/users', function(req,res) {
     User.register(new User({username: req.body.username}), req.body.password, function(err,user) {
       if (err) {
-        return res.render('users/new', {message: err.message});
+        return res.render('users/new');
       }
       passport.authenticate("local")(req,res,function(){
         res.redirect('/');

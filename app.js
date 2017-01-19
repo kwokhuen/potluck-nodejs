@@ -8,6 +8,10 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var User = require('./models/user');
 var sessionsController = require('./controllers/sessions');
 var flash = require('connect-flash');
+var potlucksController = require('./controllers/potlucks');
+var isLoggedIn = require('./middlewires/isLoggedIn');
+var expressValidator = require('express-validator');
+var expressSession = require('express-session');
 
 // setup database
 var mongoose = require('mongoose');
@@ -17,13 +21,17 @@ mongoose.connect('mongodb://localhost/potluck');
 var port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 
+
 // middleware
-app.use(flash());
-app.use(require('express-session')({
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
+app.use(expressSession({
   secret: "diu nei lou mou",
   resave: false,
   saveUninitialized: false
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -36,6 +44,7 @@ app.use(function(req,res,next) {
   next();
 })
 
+
 // routes
 app.get('/', function(req,res) {
   res.render('index', {currentUser: req.user});
@@ -43,6 +52,7 @@ app.get('/', function(req,res) {
 })
 usersController(app);
 sessionsController(app);
+potlucksController(app);
 
 // start server
 app.listen(port);

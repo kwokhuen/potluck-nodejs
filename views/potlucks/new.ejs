@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+<% if (obj.errors) {%>
+  <ul>
+  <% obj.errors.forEach(function(error){ %>
+      <li><%= error.msg %></li>
+  <% }) %>
+  </ul>
+<% } %>
+<h1>Host a Potluck</h1>
+<form method="post" action="/potlucks">
+  <label for="name">Name: </label>
+  <input id="name" type="text" placeholder="name" name="name">
+  <label for="location">Location: </label>
+  <input id="location" type="text" placeholder="location" name="location">
+  <label for="date">Start Date: </label>
+  <input id="date" type="text" placeholder="YYYY-MM-DD HH:MM" name="date">
+  <input type="submit" value="Host">
+</form>
+<% include ../partials/footer %>
