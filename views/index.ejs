@@ -1,4 +1,13 @@
 <% include partials/header %>
 <h1>Potluck Party</h1>
-
+<% if (potlucks === []) { %>
+  <h2>Sorry! There isn't any parties yet!</h2>
+<% } else { %>
+  <% potlucks.forEach(function(potluck) { %>
+    <% var parseDate = potluck.date.toString().split(" "); %>
+    <% var date = `${parseDate[1]} ${parseDate[2]}, ${parseDate[3]}`; %>
+    <a href="/potlucks/<%= potluck.id %>"><%= potluck.name %></a>
+    <p><%= `${date} at ${potluck.location}` %></p>
+  <% }) %>
+<% } %>
 <% include partials/footer %>

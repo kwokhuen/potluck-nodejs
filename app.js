@@ -8,6 +8,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var User = require('./models/user');
 var sessionsController = require('./controllers/sessions');
 var flash = require('connect-flash');
+var Potluck = require('./models/potluck');
 var potlucksController = require('./controllers/potlucks');
 var isLoggedIn = require('./middlewires/isLoggedIn');
 var expressValidator = require('express-validator');
@@ -47,8 +48,9 @@ app.use(function(req,res,next) {
 
 // routes
 app.get('/', function(req,res) {
-  res.render('index', {currentUser: req.user});
-  console.log(req.user);
+  Potluck.find({}, function(err, potlucks) {
+    res.render('index', {currentUser: req.user, potlucks: potlucks});
+  })
 })
 usersController(app);
 sessionsController(app);
