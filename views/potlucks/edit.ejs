@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+<% if (obj.errors) {%>
+  <ul>
+  <% obj.errors.forEach(function(error){ %>
+      <li><%= error.msg %></li>
+  <% }) %>
+  </ul>
+<% } %>
+<h1><%= potluck.name %></h1>
+<form method="post" action="/potlucks/<%= potluck._id %>?_method=PUT">
+  <label for="name">Name: </label>
+  <input id="name" type="text" value="<%= potluck.name %>" name="name">
+  <label for="location">Location: </label>
+  <input id="location" type="text" value="<%= potluck.location %>" name="location">
+  <label for="date">Start Date: </label>
+  <input id="date" type="text" value="YYYY-MM-DD HH:MM" name="date">
+  <input type="submit" value="Host">
+</form>
+<% include ../partials/footer %>

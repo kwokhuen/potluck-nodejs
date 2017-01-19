@@ -13,6 +13,8 @@ var potlucksController = require('./controllers/potlucks');
 var isLoggedIn = require('./middlewires/isLoggedIn');
 var expressValidator = require('express-validator');
 var expressSession = require('express-session');
+var methodOverride = require('method-override')
+
 
 // setup database
 var mongoose = require('mongoose');
@@ -26,6 +28,7 @@ app.set('view engine', 'ejs');
 // middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method')); // override html method e.g put delete request
 app.use(expressValidator());
 app.use(expressSession({
   secret: "diu nei lou mou",

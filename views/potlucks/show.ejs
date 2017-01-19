@@ -8,6 +8,9 @@
 <p>Location: <%= potluck.location %></p>
 <p>Date: <%= date %></p>
 <p>Time: <%= time %></p>
-<p>Host: <%= host %></p>
+<p>Host: <%= potluck._host.username %></p>
+<% if (currentUser._id.equals(potluck._host._id)) { %>
+  <a href="/potlucks/<%= potluck.id %>/edit">Edit</a>
+<% } %>
 
 <% include ../partials/footer %>
