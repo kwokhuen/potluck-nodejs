@@ -1,0 +1,13 @@
+<% include ../partials/header %>
+<% if (error.msg) { %>
+  <ul>
+    <li><%= error.msg %></li>
+  </ul>
+<% } %>
+<h2><%= potluck.name %></h2>
+<p>Location: <%= potluck.location %></p>
+<p>Date: <%= date %></p>
+<p>Time: <%= time %></p>
+<p>Host: <%= host %></p>
+
+<% include ../partials/footer %>

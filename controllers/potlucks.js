@@ -6,6 +6,20 @@ module.exports = function(app) {
   app.get('/potlucks/new', isLoggedIn, function(req,res) {
     res.render('potlucks/new', {obj: req.flash()});
   });
+
+  app.get('/potlucks/:id', isLoggedIn, function(req,res) {
+    Potluck.findById(req.params.id, function(err,potluck) {
+      if (err) {
+        req.flash('msg', 'The event you are looking for does not exist.');
+        return res.redirect(`/potlucks/${req.params.id}`);
+      }
+      var parseDate = potluck.date.toString().split(' ');
+      var date = `${parseDate[1]} ${parseDate[2]}, ${parseDate[3]}`;
+      var time = parseDate[4].slice(0,5);
+      res.render('potlucks/show', { error: req.flash(), potluck: potluck, host: req.user.username, date: date, time: time });
+    })
+  })
+
   app.post('/potlucks', isLoggedIn, function(req,res) {
     req.check('name', 'Name cannot be empty.').notEmpty();
     req.check('location', 'Location cannot be empty.').notEmpty();
