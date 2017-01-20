@@ -4,7 +4,11 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var userSchema = mongoose.Schema({
   username: String,
   email: String,
-  password: String
+  password: String,
+  _hostedPotlucks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Potluck'
+  }]
 });
 
 userSchema.plugin(passportLocalMongoose);

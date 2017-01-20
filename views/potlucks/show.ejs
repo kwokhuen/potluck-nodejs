@@ -11,6 +11,9 @@
 <p>Host: <%= potluck._host.username %></p>
 <% if (currentUser._id.equals(potluck._host._id)) { %>
   <a href="/potlucks/<%= potluck.id %>/edit">Edit</a>
+  <form action="/potlucks/<%= potluck._id %>?_method=DELETE" method="post">
+    <input type="submit" value="Delete">
+  </form>
 <% } %>
 
 <% include ../partials/footer %>

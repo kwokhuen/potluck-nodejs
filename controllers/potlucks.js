@@ -1,17 +1,22 @@
 var Potluck = require('../models/potluck');
+var User = require('../models/user');
 var isLoggedIn = require('../middlewires/isLoggedIn');
 var bodyParser = require('body-parser');
 
 module.exports = function(app) {
-  
+
   app.get('/potlucks/new', isLoggedIn, function(req,res) {
     res.render('potlucks/new', {obj: req.flash()});
   });
 
   app.get('/potlucks/:id/edit', isLoggedIn, function(req,res) {
-    if (!req.user._id.equals(req.params.id)) {
-      return res.redirect('/');
-    }
+    User.findById(req.user._id).populate('_hostedPotlucks').exec(function(err, currentUser) {
+      if (err) throw err;
+      if (currentUser._hostedPotlucks.some(function(potluck) {
+        return potluck._id.equals(req.params.id)
+      })) return;
+      else return res.redirect('/');
+    })
     Potluck.findById(req.params.id, function(err, potluck) {
       if (err) {
         throw err;
@@ -82,7 +87,29 @@ module.exports = function(app) {
       if (err) {
         return res.redirect('/potlucks/new');
       };
+      req.user._hostedPotlucks.push(potluck._id);
+      req.user.save(function(err,user) {
+        if (err) {
+          throw err;
+        }
+      })
       res.redirect('/');
     });
   });
+
+  app.delete('/potlucks/:id', isLoggedIn, function(req,res) {
+    // User.findById(req.user._id).populate('_hostedPotlucks').exec(function(err, currentUser) {
+    //   if (err) throw err;
+    //   if (currentUser._hostedPotlucks.some(function(potluck) {
+    //     return potluck._id.equals(req.params.id)
+    //   })) return;
+    //   else return res.redirect('/');
+    // })
+    Potluck.findByIdAndRemove(req.params.id, function(err) {
+      if (err) {
+        throw err;
+      }
+    })
+    res.redirect('/');
+  })
 }
